@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAI SANJAY | Data Analyst Terminal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="boot" aria-hidden="true"><pre id="bootTxt"></pre></div>
+<header class="top">
+  <div class="brand">SAI&nbsp;SANJAY<span> &lt;GO&gt;</span></div>
+  <form id="cmdForm" autocomplete="off">
+    <label for="cmd">CMD</label>
+    <input id="cmd" placeholder="type PROJ, EXP, SKILL, EDU, CONT or HELP then Enter" spellcheck="false">
+  </form>
+  <div class="clock" id="clock">--:--:--</div>
+</header>
+
+<nav class="fkeys" id="fkeys">
+  <button data-go="profile"><b>F1</b> PROFILE</button>
+  <button data-go="skills"><b>F2</b> SKILLS</button>
+  <button data-go="exp"><b>F3</b> EXPERIENCE</button>
+  <button data-go="proj"><b>F4</b> PROJECTS</button>
+  <button data-go="edu"><b>F5</b> EDUCATION</button>
+  <button data-go="cont"><b>F6</b> CONTACT</button>
+</nav>
+
+<div class="tape"><div class="tape-inner" id="tape"></div></div>
+
+<main class="grid">
+
+  <section class="panel p-profile" id="profile">
+    <h2>1) SAI SANJAY &mdash; DESCRIPTION</h2>
+    <div class="body">
+      <div class="kv"><span>Role</span><em>Data Analyst, Financial Markets &amp; BI</em></div>
+      <div class="kv"><span>Location</span><em>Pune, India</em></div>
+      <div class="kv"><span>Stack</span><em>SQL / Python / Power BI / Tableau</em></div>
+      <div class="kv"><span>Status</span><em class="up">OPEN TO ROLES</em></div>
+      <p>Data analyst focused on financial markets. I use SQL, Python and BI tools to build technical-analysis platforms, market-data pipelines and KPI reports. I built a multi-agent AI research assistant and a 12-indicator market terminal from scratch, plus applied ML for churn prediction and risk segmentation. I own a data problem end to end: ingestion, analysis, modeling and visualization.</p>
+      <div class="stats">
+        <div><b data-n="8">0</b>AI agents</div>
+        <div><b data-n="12">0</b>indicators</div>
+        <div><b data-n="30">0</b>+ datasets</div>
+        <div><b data-n="85">0</b>ROC-AUC &times;100</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel p-chart">
+    <h2>2) SANJ &mdash; SANJ US EQUITY &middot; 1M CANDLES (SIMULATED) <small id="px"></small></h2>
+    <div class="body nopad">
+      <canvas id="chart" height="260"></canvas>
+      <div class="legend"><i style="background:#38e8ff"></i>SMA 10 <i style="background:#2ee66b"></i>Up <i style="background:#ff4d4d"></i>Down &nbsp;&nbsp;Vol below</div>
+    </div>
+  </section>
+
+  <section class="panel p-watch">
+    <h2>3) MARKET MONITOR <small>SIMULATED FEED</small></h2>
+    <div class="body nopad"><table class="blotter" id="watch"><thead><tr><th>Symbol</th><th>Last</th><th>Chg%</th><th>Trend</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="panel p-log">
+    <h2>4) SYSTEM LOG <small id="up">UPTIME 00:00</small></h2>
+    <div class="body log" id="log"></div>
+  </section>
+
+  <section class="panel p-skills" id="skills">
+    <h2>5) SKILL MATRIX</h2>
+    <div class="body" id="skillBody"></div>
+  </section>
+
+  <section class="panel p-exp" id="exp">
+    <h2>6) EXPERIENCE</h2>
+    <div class="body">
+      <article>
+        <header><b>Data Analyst Intern</b> <em>Unified Mentor</em> <span>Mar 2026 &ndash; May 2026</span></header>
+        <ul>
+          <li>Built Python and SQL workflows for KPI reporting and business decision support.</li>
+          <li>Cleaned, transformed and validated data with Pandas, NumPy and PostgreSQL, improving consistency and cutting manual reporting.</li>
+          <li>Developed Power BI and Tableau dashboards with DAX and Power Query for KPI monitoring and executive reporting.</li>
+          <li>Automated recurring data prep and ETL tasks to speed up reporting turnaround.</li>
+        </ul>
+      </article>
+      <article>
+        <header><b>Research Analyst Intern</b> <em>Savvy Merit</em> <span>Jul 2025 &ndash; Sep 2025</span></header>
+        <ul>
+          <li>Ran structured research and trend analysis across 30+ datasets on equities and market data.</li>
+          <li>Automated repetitive data-processing steps in Python to cut manual analysis time.</li>
+          <li>Wrote research reports with sector- and portfolio-level insights.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel p-proj" id="proj">
+    <h2>7) PROJECT BLOTTER</h2>
+    <div class="body">
+      <table class="blotter">
+        <thead><tr><th>Project</th><th>Period</th><th>Tech</th><th>Key metric</th><th></th></tr></thead>
+        <tbody>
+          <tr class="row" data-p="0"><td>QuadraAI</td><td>May 2026 &ndash;</td><td>Flask, Supabase</td><td class="up">8 agents</td><td>+</td></tr>
+          <tr class="row" data-p="1"><td>QuadraTerminal</td><td>Mar&ndash;Apr 2026</td><td>Pandas, Plotly</td><td class="up">12 indicators</td><td>+</td></tr>
+          <tr class="row" data-p="2"><td>Churn Prediction</td><td>Feb&ndash;Apr 2026</td><td>Scikit-learn, SHAP</td><td class="up">AUC 0.85</td><td>+</td></tr>
+        </tbody>
+      </table>
+      <div id="detail" class="detail"></div>
+    </div>
+  </section>
+
+  <section class="panel p-edu" id="edu">
+    <h2>8) EDUCATION &amp; CERTIFICATES</h2>
+    <div class="body">
+      <div class="kv"><span>2023&ndash;2026</span><em>Bachelor of Computer Applications, Symbiosis International University</em></div>
+      <div class="kv"><span>Certificate</span><em>IBM Data Analyst Professional Certificate (Python, SQL, Data Analysis)</em></div>
+    </div>
+  </section>
+
+  <section class="panel p-cont" id="cont">
+    <h2>9) CONTACT</h2>
+    <div class="body">
+      <div class="kv"><span>Email</span><em><a href="mailto:saisanjay138@gmail.com">saisanjay138@gmail.com</a></em></div>
+      <div class="kv"><span>Phone</span><em><a href="tel:+919953945158">+91-9953945158</a></em></div>
+      <div class="kv"><span>LinkedIn</span><em><a href="https://linkedin.com/in/sai-s-198a14276" target="_blank" rel="noopener">linkedin.com/in/sai-s-198a14276</a></em></div>
+      <div class="kv"><span>GitHub</span><em><a href="https://github.com/SAISANJAY-PARTH" target="_blank" rel="noopener">github.com/SAISANJAY-PARTH</a></em></div>
+    </div>
+  </section>
+
+</main>
+<footer class="status"><span id="msg">READY</span><span>Press <kbd>/</kbd> to focus the command line, <kbd>F1</kbd>&ndash;<kbd>F6</kbd> to jump</span></footer>
+<script src="script.js"></script>
+</body>
+</html>
