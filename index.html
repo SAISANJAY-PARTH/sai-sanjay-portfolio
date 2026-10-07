@@ -1,133 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SAI SANJAY | Data Analyst Terminal</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Sanjay | FinTech & Data Analyst Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bb-bg: #0b0b0b;
+            --bb-panel: #141414;
+            --bb-border: #262626;
+            --bb-yellow: #ffb000;
+            --bb-amber: #ff8c00;
+            --bb-green: #00ff66;
+            --bb-text: #d4d4d4;
+            --bb-text-dim: #888888;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--bb-bg);
+            color: var(--bb-text);
+            line-height: 1.5;
+            overflow-x: hidden;
+            font-size: 13px;
+        }
+
+        /* Bloomberg Top Ticker Bar */
+        .bb-ticker {
+            background-color: #050505;
+            border-bottom: 1px solid var(--bb-border);
+            color: var(--bb-yellow);
+            font-size: 11px;
+            padding: 0.4rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-track {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
+        }
+
+        .ticker-track span {
+            margin-right: 3rem;
+        }
+
+        .ticker-track .up { color: var(--bb-green); }
+        .ticker-track .lbl { color: var(--bb-text-dim); }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* Terminal Header Container */
+        .terminal-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Top Bar Menu / Status */
+        .terminal-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bb-panel);
+            border: 1px solid var(--bb-border);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 12px;
+            color: var(--bb-yellow);
+        }
+
+        .terminal-topbar .status-led {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .led-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--bb-green);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--bb-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* Main Hero Section */
+        header.hero-terminal {
+            background: var(--bb-panel);
+            border: 1px solid var(--bb-border);
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        header.hero-terminal::before {
+            content: "SEC <GO>";
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 11px;
+            color: var(--bb-text-dim);
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--bb-yellow);
+            margin-bottom: 0.2rem;
+            font-weight: 700;
+        }
+
+        .hero-sub {
+            color: var(--bb-amber);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: var(--bb-text);
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+            font-size: 12.5px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bb-btn {
+            background: transparent;
+            border: 1px solid var(--bb-yellow);
+            color: var(--bb-yellow);
+            padding: 0.5rem 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .bb-btn:hover {
+            background: var(--bb-yellow);
+            color: #000;
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            background-color: #1c1c1c;
+            border: 1px solid var(--bb-border);
+            border-bottom: none;
+            padding: 0.5rem 1rem;
+            color: var(--bb-yellow);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1px;
+            background: var(--bb-border);
+            border: 1px solid var(--bb-border);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1px;
+            background: var(--bb-border);
+            border: 1px solid var(--bb-border);
+        }
+
+        .bb-card {
+            background: var(--bb-panel);
+            padding: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bb-card:hover {
+            background: #191919;
+        }
+
+        .bb-card h3 {
+            color: var(--bb-yellow);
+            font-size: 13px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bb-card p, .bb-card li {
+            color: var(--bb-text);
+            font-size: 12px;
+        }
+
+        /* Skills Tags Matrix */
+        .matrix-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+
+        .matrix-tag {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 0.2rem 0.5rem;
+            font-size: 11px;
+            color: var(--bb-text-dim);
+        }
+
+        /* Experience Bullet Formatting */
+        .exp-list {
+            list-style: none;
+            margin-top: 0.75rem;
+        }
+
+        .exp-list li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .exp-list li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--bb-amber);
+        }
+
+        .timestamp {
+            color: var(--bb-green);
+            font-size: 11px;
+        }
+
+        /* Contact Box Panel */
+        .terminal-contact {
+            background: var(--bb-panel);
+            border: 1px solid var(--bb-border);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--bb-text-dim);
+            font-size: 11px;
+            border-top: 1px solid var(--bb-border);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .terminal-container { padding: 0.5rem; }
+            header.hero-terminal { padding: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
-<div id="boot" aria-hidden="true"><pre id="bootTxt"></pre></div>
-<header class="top">
-  <div class="brand">SAI&nbsp;SANJAY<span> &lt;GO&gt;</span></div>
-  <form id="cmdForm" autocomplete="off">
-    <label for="cmd">CMD</label>
-    <input id="cmd" placeholder="type PROJ, EXP, SKILL, EDU, CONT or HELP then Enter" spellcheck="false">
-  </form>
-  <div class="clock" id="clock">--:--:--</div>
-</header>
 
-<nav class="fkeys" id="fkeys">
-  <button data-go="profile"><b>F1</b> PROFILE</button>
-  <button data-go="skills"><b>F2</b> SKILLS</button>
-  <button data-go="exp"><b>F3</b> EXPERIENCE</button>
-  <button data-go="proj"><b>F4</b> PROJECTS</button>
-  <button data-go="edu"><b>F5</b> EDUCATION</button>
-  <button data-go="cont"><b>F6</b> CONTACT</button>
-</nav>
-
-<div class="tape"><div class="tape-inner" id="tape"></div></div>
-
-<main class="grid">
-
-  <section class="panel p-profile" id="profile">
-    <h2>1) SAI SANJAY &mdash; DESCRIPTION</h2>
-    <div class="body">
-      <div class="kv"><span>Role</span><em>Data Analyst, Financial Markets &amp; BI</em></div>
-      <div class="kv"><span>Location</span><em>Pune, India</em></div>
-      <div class="kv"><span>Stack</span><em>SQL / Python / Power BI / Tableau</em></div>
-      <div class="kv"><span>Status</span><em class="up">OPEN TO ROLES</em></div>
-      <p>Data analyst focused on financial markets. I use SQL, Python and BI tools to build technical-analysis platforms, market-data pipelines and KPI reports. I built a multi-agent AI research assistant and a 12-indicator market terminal from scratch, plus applied ML for churn prediction and risk segmentation. I own a data problem end to end: ingestion, analysis, modeling and visualization.</p>
-      <div class="stats">
-        <div><b data-n="8">0</b>AI agents</div>
-        <div><b data-n="12">0</b>indicators</div>
-        <div><b data-n="30">0</b>+ datasets</div>
-        <div><b data-n="85">0</b>ROC-AUC &times;100</div>
-      </div>
+    <!-- Bloomberg Ticker Bar -->
+    <div class="bb-ticker">
+        <div class="ticker-track">
+            <span><span class="lbl">SYS:</span> TERMINAL_ONLINE</span>
+            <span><span class="lbl">FEED:</span> UPSTOX API [CONNECTED]</span>
+            <span><span class="lbl">MODEL:</span> RANDOM_FOREST <span class="up">ROC-AUC: 0.85</span></span>
+            <span><span class="lbl">CORE_SKILLS:</span> PYTHON | SQL | POWER BI | MACHINE LEARNING</span>
+            <span><span class="lbl">SYS:</span> TERMINAL_ONLINE</span>
+            <span><span class="lbl">FEED:</span> UPSTOX API [CONNECTED]</span>
+            <span><span class="lbl">MODEL:</span> RANDOM_FOREST <span class="up">ROC-AUC: 0.85</span></span>
+            <span><span class="lbl">CORE_SKILLS:</span> PYTHON | SQL | POWER BI | MACHINE LEARNING</span>
+        </div>
     </div>
-  </section>
 
-  <section class="panel p-chart">
-    <h2>2) SANJ &mdash; SANJ US EQUITY &middot; 1M CANDLES (SIMULATED) <small id="px"></small></h2>
-    <div class="body nopad">
-      <canvas id="chart" height="260"></canvas>
-      <div class="legend"><i style="background:#38e8ff"></i>SMA 10 <i style="background:#2ee66b"></i>Up <i style="background:#ff4d4d"></i>Down &nbsp;&nbsp;Vol below</div>
+    <div class="terminal-container">
+        
+        <!-- Top Status Bar -->
+        <div class="terminal-topbar">
+            <div class="status-led">
+                <div class="led-dot"></div> BLOOMBERG v26.10 // PORTFOLIO DATABASE ACTIVE
+            </div>
+            <div>PUNE, INDIA // SEC: FINTECH & DATA ANALYTICS</div>
+        </div>
+
+        <!-- Hero Terminal Header -->
+        <header class="hero-terminal">
+            <h1>SAI SANJAY</h1>
+            <div class="hero-sub">> DATA ANALYST & FINANCIAL MARKETS TECH</div>
+            <p class="hero-desc">Data Analyst focused on financial markets, combining SQL, Python, and BI tools to build technical-analysis platforms, market-data pipelines, and KPI reporting frameworks[cite: 4].</p>
+            <div class="btn-group">
+                <a href="#projects" class="bb-btn"><i class="fas fa-terminal"></i> LOAD PROJECTS &lt;GO&gt;</a>
+                <a href="mailto:saisanjay138@gmail.com" class="bb-btn"><i class="fas fa-paper-plane"></i> CONTACT &lt;GO&gt;</a>
+            </div>
+        </header>
+
+        <!-- Technical Stack Section -->
+        <section id="skills">
+            <div class="section-header">
+                <span>TECHNICAL MATRIX // CORE COMPETENCIES</span>
+                <span>[SKILLS]</span>
+            </div>
+            <div class="grid-3">
+                <div class="bb-card">
+                    <h3>SQL & Databases <span>[SQL]</span></h3>
+                    <p>PostgreSQL query optimization, complex joins, aggregations, CTEs, and relational database management.</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag">PostgreSQL</span>
+                        <span class="matrix-tag">Joins</span>
+                        <span class="matrix-tag">CTEs</span>
+                        <span class="matrix-tag">Optimization</span>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <h3>Python Analytics <span>[PY]</span></h3>
+                    <p>Data cleaning, pipeline automation, exploratory analysis, and numerical processing algorithms.</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag">Pandas</span>
+                        <span class="matrix-tag">NumPy</span>
+                        <span class="matrix-tag">Scikit-learn</span>
+                        <span class="matrix-tag">PyTorch</span>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <h3>BI & Visualizations <span>[BI]</span></h3>
+                    <p>Executive KPI tracking, exploratory data analysis dashboards, and advanced DAX modeling.</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag">Power BI</span>
+                        <span class="matrix-tag">DAX</span>
+                        <span class="matrix-tag">Tableau</span>
+                        <span class="matrix-tag">KPI Reporting</span>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <h3>Financial Analytics <span>[FIN]</span></h3>
+                    <p>Market data pipeline feeds, multi-indicator technical analysis, volatility evaluation, and risk modeling.</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag">RSI / MACD</span>
+                        <span class="matrix-tag">Upstox API</span>
+                        <span class="matrix-tag">Yahoo Finance</span>
+                        <span class="matrix-tag">Risk Analysis</span>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <h3>Machine Learning <span>[ML]</span></h3>
+                    <p>Classification models, evaluation performance metrics, threshold optimization, and SHAP explainability.</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag">Random Forest</span>
+                        <span class="matrix-tag">ROC-AUC: 0.85</span>
+                        <span class="matrix-tag">SHAP</span>
+                        <span class="matrix-tag">Classification</span>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <h3>Backend & Infrastructure <span>[INFRA]</span></h3>
+                    <p>API endpoint deployment, containerization, version control, and cloud infrastructure integration.</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag">FastAPI</span>
+                        <span class="matrix-tag">Flask</span>
+                        <span class="matrix-tag">Docker / AWS</span>
+                        <span class="matrix-tag">Supabase</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Experience Section -->
+        <section id="experience">
+            <div class="section-header">
+                <span>PROFESSIONAL WORK HISTORY // EXPERIENCE LOG</span>
+                <span>[HIST]</span>
+            </div>
+            <div class="grid-2">
+                <div class="bb-card">
+                    <div>
+                        <h3>Data Analyst Intern <span class="timestamp">Mar 2026 – May 2026</span></h3>
+                        <p style="color: var(--bb-amber); margin-bottom: 0.5rem;">Unified Mentor</p>
+                        <ul class="exp-list">
+                            <li>Built Python + SQL analytics workflows for structured data processing, KPI reporting, and business decision support[cite: 4].</li>
+                            <li>Performed data cleaning, transformation, and validation using Pandas, NumPy, and PostgreSQL[cite: 4].</li>
+                            <li>Developed Power BI and Tableau dashboards using DAX and Power Query for deep-dive exploratory data modeling[cite: 4].</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <div>
+                        <h3>Research Analyst Intern <span class="timestamp">Jul 2025 – Sep 2025</span></h3>
+                        <p style="color: var(--bb-amber); margin-bottom: 0.5rem;">Savvy Merit</p>
+                        <ul class="exp-list">
+                            <li>Conducted structured data research and trend analysis across 30+ datasets, focusing on equities and market fundamentals[cite: 4].</li>
+                            <li>Automated recurring data-processing steps in Python, cutting manual analysis turnaround time[cite: 4].</li>
+                            <li>Produced structured research reports summarizing sector and portfolio-level insights[cite: 4].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Projects Section -->
+        <section id="projects">
+            <div class="section-header">
+                <span>PROJECT REPOSITORIES // LIVE BUILD LOG</span>
+                <span>[PROJ]</span>
+            </div>
+            <div class="grid-3">
+                <div class="bb-card">
+                    <div>
+                        <h3>QuadraAI - Financial Assistant</h3>
+                        <p>Multi-agent platform featuring 8 specialized domain agents grounded in live market feeds and financial news sentiment[cite: 4].</p>
+                        <div class="matrix-tags">
+                            <span class="matrix-tag">Flask</span>
+                            <span class="matrix-tag">Supabase</span>
+                            <span class="matrix-tag">Groq/DeepSeek</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://github.com/SAISANJAY-PARTH" target="_blank" class="bb-btn" style="padding: 0.3rem 0.8rem; font-size: 11px;"><i class="fab fa-github"></i> REPO &lt;GO&gt;</a>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <div>
+                        <h3>QuadraTerminal - Market Intelligence</h3>
+                        <p>Technical-analysis workspace incorporating 12 market indicators across multiple timeframes with local API caching[cite: 4].</p>
+                        <div class="matrix-tags">
+                            <span class="matrix-tag">Python</span>
+                            <span class="matrix-tag">Upstox API</span>
+                            <span class="matrix-tag">Yahoo Finance</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://github.com/SAISANJAY-PARTH" target="_blank" class="bb-btn" style="padding: 0.3rem 0.8rem; font-size: 11px;"><i class="fab fa-github"></i> REPO &lt;GO&gt;</a>
+                    </div>
+                </div>
+
+                <div class="bb-card">
+                    <div>
+                        <h3>Customer Churn Risk Platform</h3>
+                        <p>End-to-end customer analytics model utilizing Random Forest (ROC-AUC: 0.85) backed by SHAP explainability[cite: 4].</p>
+                        <div class="matrix-tags">
+                            <span class="matrix-tag">Scikit-learn</span>
+                            <span class="matrix-tag">Pandas</span>
+                            <span class="matrix-tag">SHAP</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://github.com/SAISANJAY-PARTH" target="_blank" class="bb-btn" style="padding: 0.3rem 0.8rem; font-size: 11px;"><i class="fab fa-github"></i> REPO &lt;GO&gt;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="terminal-contact">
+                <div>
+                    <h3 style="color: var(--bb-yellow); margin-bottom: 0.3rem; font-size: 13px;">// INITIATE COMMUNICATIONS LINK</h3>
+                    <p style="color: var(--bb-text-dim); font-size: 11.5px;">Ready to collaborate on financial markets, analytics workflows, or software development.</p>
+                </div>
+                <div class="btn-group">
+                    <a href="mailto:saisanjay138@gmail.com" class="bb-btn"><i class="fas fa-envelope"></i> EMAIL &lt;GO&gt;</a>
+                    <a href="https://linkedin.com/in/sai-s-198a14276" target="_blank" class="bb-btn"><i class="fab fa-linkedin"></i> LINKEDIN &lt;GO&gt;</a>
+                    <a href="https://github.com/SAISANJAY-PARTH" target="_blank" class="bb-btn"><i class="fab fa-github"></i> GITHUB &lt;GO&gt;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 SAI SANJAY. ALL RIGHTS RESERVED. BLOOMBERG TERMINAL UI MATRIX.</p>
+        </footer>
+
     </div>
-  </section>
 
-  <section class="panel p-watch">
-    <h2>3) MARKET MONITOR <small>SIMULATED FEED</small></h2>
-    <div class="body nopad"><table class="blotter" id="watch"><thead><tr><th>Symbol</th><th>Last</th><th>Chg%</th><th>Trend</th></tr></thead><tbody></tbody></table></div>
-  </section>
-
-  <section class="panel p-log">
-    <h2>4) SYSTEM LOG <small id="up">UPTIME 00:00</small></h2>
-    <div class="body log" id="log"></div>
-  </section>
-
-  <section class="panel p-skills" id="skills">
-    <h2>5) SKILL MATRIX</h2>
-    <div class="body" id="skillBody"></div>
-  </section>
-
-  <section class="panel p-exp" id="exp">
-    <h2>6) EXPERIENCE</h2>
-    <div class="body">
-      <article>
-        <header><b>Data Analyst Intern</b> <em>Unified Mentor</em> <span>Mar 2026 &ndash; May 2026</span></header>
-        <ul>
-          <li>Built Python and SQL workflows for KPI reporting and business decision support.</li>
-          <li>Cleaned, transformed and validated data with Pandas, NumPy and PostgreSQL, improving consistency and cutting manual reporting.</li>
-          <li>Developed Power BI and Tableau dashboards with DAX and Power Query for KPI monitoring and executive reporting.</li>
-          <li>Automated recurring data prep and ETL tasks to speed up reporting turnaround.</li>
-        </ul>
-      </article>
-      <article>
-        <header><b>Research Analyst Intern</b> <em>Savvy Merit</em> <span>Jul 2025 &ndash; Sep 2025</span></header>
-        <ul>
-          <li>Ran structured research and trend analysis across 30+ datasets on equities and market data.</li>
-          <li>Automated repetitive data-processing steps in Python to cut manual analysis time.</li>
-          <li>Wrote research reports with sector- and portfolio-level insights.</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section class="panel p-proj" id="proj">
-    <h2>7) PROJECT BLOTTER</h2>
-    <div class="body">
-      <table class="blotter">
-        <thead><tr><th>Project</th><th>Period</th><th>Tech</th><th>Key metric</th><th></th></tr></thead>
-        <tbody>
-          <tr class="row" data-p="0"><td>QuadraAI</td><td>May 2026 &ndash;</td><td>Flask, Supabase</td><td class="up">8 agents</td><td>+</td></tr>
-          <tr class="row" data-p="1"><td>QuadraTerminal</td><td>Mar&ndash;Apr 2026</td><td>Pandas, Plotly</td><td class="up">12 indicators</td><td>+</td></tr>
-          <tr class="row" data-p="2"><td>Churn Prediction</td><td>Feb&ndash;Apr 2026</td><td>Scikit-learn, SHAP</td><td class="up">AUC 0.85</td><td>+</td></tr>
-        </tbody>
-      </table>
-      <div id="detail" class="detail"></div>
-    </div>
-  </section>
-
-  <section class="panel p-edu" id="edu">
-    <h2>8) EDUCATION &amp; CERTIFICATES</h2>
-    <div class="body">
-      <div class="kv"><span>2023&ndash;2026</span><em>Bachelor of Computer Applications, Symbiosis International University</em></div>
-      <div class="kv"><span>Certificate</span><em>IBM Data Analyst Professional Certificate (Python, SQL, Data Analysis)</em></div>
-    </div>
-  </section>
-
-  <section class="panel p-cont" id="cont">
-    <h2>9) CONTACT</h2>
-    <div class="body">
-      <div class="kv"><span>Email</span><em><a href="mailto:saisanjay138@gmail.com">saisanjay138@gmail.com</a></em></div>
-      <div class="kv"><span>Phone</span><em><a href="tel:+919953945158">+91-9953945158</a></em></div>
-      <div class="kv"><span>LinkedIn</span><em><a href="https://linkedin.com/in/sai-s-198a14276" target="_blank" rel="noopener">linkedin.com/in/sai-s-198a14276</a></em></div>
-      <div class="kv"><span>GitHub</span><em><a href="https://github.com/SAISANJAY-PARTH" target="_blank" rel="noopener">github.com/SAISANJAY-PARTH</a></em></div>
-    </div>
-  </section>
-
-</main>
-<footer class="status"><span id="msg">READY</span><span>Press <kbd>/</kbd> to focus the command line, <kbd>F1</kbd>&ndash;<kbd>F6</kbd> to jump</span></footer>
-<script src="script.js"></script>
 </body>
 </html>
