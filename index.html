@@ -10,6 +10,126 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Pricing section (uses the site's existing design tokens) */
+    .pricing-section{background:#0e0f11;border-top:1px solid #292725;border-bottom:1px solid #292725;padding:100px 0}
+    .pricing-glance{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #34312b;background:#111214;margin-bottom:24px}
+    .pricing-glance div{padding:18px 22px;border-right:1px solid #34312b}
+    .pricing-glance div:last-child{border-right:0}
+    .pricing-glance strong{display:block;font:600 28px Manrope,sans-serif;letter-spacing:-.045em;line-height:1.2}
+    .pricing-glance span{font:9px 'DM Mono',monospace;letter-spacing:.1em;color:#8d8578;text-transform:uppercase}
+    .pricing-block{margin-top:80px}
+    .pricing-glance+.pricing-block{margin-top:56px}
+    .pricing-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #302e2a}
+    .pricing-no{font:10px 'DM Mono',monospace;letter-spacing:.15em;color:var(--accent)}
+    .pricing-head h3{font:600 26px Manrope,sans-serif;letter-spacing:-.04em;margin:8px 0 0}
+    .pricing-sub{font-size:13px;color:var(--muted);margin:0;max-width:360px;text-align:right}
+    .pricing-fee{font-family:'DM Mono',monospace;color:var(--accent)}
+
+    /* packages */
+    .pricing-packs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+    .pricing-pack{position:relative;display:flex;flex-direction:column;gap:14px;padding:26px 24px;background:#101113;border:1px solid #302e2a;min-width:0;transition:border-color .2s,transform .2s}
+    .pricing-pack:hover{border-color:#74603a;transform:translateY(-2px)}
+    .pricing-pack.is-featured{border-color:#74603a;border-top:2px solid var(--accent);background:linear-gradient(180deg,#1a1610,#101113 55%)}
+    .pricing-badge{position:absolute;top:-1px;right:-1px;background:var(--accent);color:#17130b;font:9px 'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px}
+    .pack-no{font:10px 'DM Mono',monospace;letter-spacing:.12em;color:#777166}
+    .pricing-pack h4{font:600 21px Manrope,sans-serif;letter-spacing:-.035em;margin:0}
+    .pack-price{display:flex;align-items:baseline;gap:8px}
+    .pack-price small{font:10px 'DM Mono',monospace;letter-spacing:.08em;color:#8d8578;text-transform:uppercase}
+    .pack-price strong{font:600 36px Manrope,sans-serif;letter-spacing:-.05em;color:var(--accent)}
+    .pack-desc{margin:0;font-size:13px;line-height:1.8;color:#a9a59d}
+    .pricing-pack ul{list-style:none;margin:0;padding:16px 0 0;border-top:1px solid #302e2a;display:grid;gap:8px;font-size:12px;color:#c1bbb0}
+    .pricing-pack li{position:relative;padding-left:20px;line-height:1.6}
+    .pricing-pack li::before{content:"+";position:absolute;left:0;font-family:'DM Mono',monospace;color:var(--accent)}
+    .pack-opt{margin-top:auto;padding-top:14px;border-top:1px solid #302e2a;font-size:11px;color:#8b8273}
+    .pack-opt b{font:500 11px 'DM Mono',monospace;color:var(--accent)}
+    .pack-cta{width:100%;justify-content:space-between}
+
+    /* filter toolbar */
+    .pricing-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+    .pricing-chips{display:flex;gap:7px;flex-wrap:wrap}
+    .pricing-chip{background:transparent;border:1px solid #33312d;color:#a8a39a;padding:9px 13px;font-size:11px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+    .pricing-chip:hover,.pricing-chip[aria-pressed="true"]{background:var(--accent);color:#17130b;border-color:var(--accent)}
+    .pricing-chip:focus-visible,.row-arrow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .pricing-count{font:10px 'DM Mono',monospace;letter-spacing:.08em;color:#8d8578;white-space:nowrap}
+
+    /* tables */
+    .pricing-table-wrap{border:1px solid #34312b;background:#101113}
+    .pricing-table{width:100%;border-collapse:collapse;font-size:13px}
+    .pricing-table th,.pricing-table td{text-align:left;padding:16px 20px;border-bottom:1px solid #2b2926;vertical-align:top}
+    .pricing-table thead th{font:9px 'DM Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#8d8578;font-weight:400;background:#111214}
+    .pricing-table tbody th{font-weight:600;font-size:14px;width:30%}
+    .pricing-table tbody tr{transition:background .15s}
+    .pricing-table tbody tr:hover{background:#141518}
+    .pricing-table tbody tr:last-child>*{border-bottom:0}
+    .pricing-table td.pricing-fee{font-size:12px;white-space:nowrap;width:21%}
+    .pricing-table td.scope{color:#a6a198;font-size:12px;line-height:1.7}
+    .pricing-table td.go{width:56px;text-align:right;padding-left:0}
+    .row-arrow{color:#80745f;transition:color .2s}
+    .row-arrow:hover{color:var(--accent)}
+    .pricing-table tr[hidden]{display:none}
+
+    /* terms */
+    .pricing-terms{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+    .pricing-terms li{padding:20px;background:#101113;border:1px solid #302e2a;display:grid;gap:8px;align-content:start}
+    .term-key{font:11px 'DM Mono',monospace;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+    .pricing-terms strong{font:600 15px Manrope,sans-serif;letter-spacing:-.02em}
+    .pricing-terms p{margin:0;font-size:12px;line-height:1.8;color:#a6a198}
+
+    /* quote CTA */
+    .pricing-cta{margin-top:80px;display:flex;align-items:center;justify-content:space-between;gap:30px;padding:30px;border:1px solid #3b352a;border-left:2px solid var(--accent);background:radial-gradient(ellipse at 0% 100%,#251c10 0%,transparent 55%),#111214}
+    .pricing-cta h3{font:600 24px Manrope,sans-serif;letter-spacing:-.04em;margin:0 0 8px}
+    .pricing-cta p{margin:0;max-width:520px;color:#aaa49a;font-size:13px;line-height:1.8}
+    .pricing-cta .button{flex:none}
+
+    /* tablet */
+    @media(max-width:900px){
+      .pricing-section{padding:80px 0}
+      .pricing-head{flex-direction:column;align-items:flex-start;gap:10px}
+      .pricing-sub{text-align:left}
+      .pricing-packs{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .pricing-packs .pricing-pack:last-child{grid-column:span 2}
+      .pricing-terms{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .pricing-terms li:last-child{grid-column:span 2}
+      .pricing-table th,.pricing-table td{padding:14px 14px}
+      .pricing-table td.pricing-fee{white-space:normal;width:24%}
+      .pricing-table td.go{width:40px}
+    }
+
+    /* mobile */
+    @media(max-width:650px){
+      .pricing-section{padding:70px 0}
+      .pricing-glance{grid-template-columns:1fr 1fr}
+      .pricing-glance div{border-bottom:1px solid #34312b;padding:16px 18px}
+      .pricing-glance div:nth-child(2n){border-right:0}
+      .pricing-glance div:nth-last-child(-n+2){border-bottom:0}
+      .pricing-glance strong{font-size:24px}
+      .pricing-block{margin-top:60px}
+      .pricing-head h3{font-size:22px}
+      .pricing-packs{grid-template-columns:1fr}
+      .pricing-packs .pricing-pack:last-child{grid-column:auto}
+      .pack-price strong{font-size:32px}
+      .pricing-toolbar{flex-direction:column;align-items:stretch;gap:12px}
+      .pricing-chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -18px;padding:0 18px 6px;scrollbar-width:none}
+      .pricing-chips::-webkit-scrollbar{display:none}
+      .pricing-chip{flex:none}
+      .pricing-table-wrap{border:0;background:transparent}
+      .pricing-table,.pricing-table tbody,.pricing-table tr,.pricing-table th,.pricing-table td{display:block;width:100%}
+      .pricing-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+      .pricing-table tbody{display:grid;gap:12px}
+      .pricing-table tbody tr{position:relative;border:1px solid #302e2a;background:#101113;padding:16px 46px 16px 16px}
+      .pricing-table tr[hidden]{display:none}
+      .pricing-table th,.pricing-table td{padding:0;border:0}
+      .pricing-table tbody th{width:100%;margin-bottom:6px;font-size:14px}
+      .pricing-table td.pricing-fee{width:100%;white-space:normal;margin-bottom:6px}
+      .pricing-table td.go{position:absolute;top:16px;right:16px;width:auto}
+      .pricing-terms{grid-template-columns:1fr}
+      .pricing-terms li:last-child{grid-column:auto}
+      .pricing-cta{flex-direction:column;align-items:stretch;padding:22px;gap:20px}
+      .pricing-cta h3{font-size:21px}
+      .pricing-cta .button{justify-content:space-between}
+    }
+  </style>
 </head>
 <body>
   <div class="announcement">
@@ -27,6 +147,7 @@
     <nav class="nav" id="main-navigation" aria-label="Main navigation">
       <a href="#work">Selected work</a>
       <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
       <a href="#tools">Finance tools</a>
       <a href="#about">About</a>
       <a class="nav-cta" href="#contact">Let's talk <span>↗</span></a>
@@ -522,6 +643,164 @@
           </article>
         </div>
       </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing-section" id="pricing">
+      <div class="section-wrap">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">SERVICES &amp; PRICING / DOC SS-PR-001</div>
+          <h2>Transparent starting points.<br><em>Scoped to your needs.</em></h2>
+        </div>
+        <p>
+          Digital, data and automation services for businesses that need a
+          stronger online presence, better reporting and simpler workflows.
+          The ranges below are indicative freelance starting points for India,
+          not fixed offers; final pricing depends on requirements, complexity,
+          delivery schedule and third-party costs.
+        </p>
+      </div>
+
+      <div class="pricing-glance" aria-label="Pricing at a glance">
+        <div><strong>17</strong><span>Project services</span></div>
+        <div><strong>3</strong><span>Packaged offers</span></div>
+        <div><strong>6</strong><span>Care &amp; support plans</span></div>
+        <div><strong>50 / 50</strong><span>Payment structure</span></div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-head">
+          <div><span class="pricing-no">01</span><h3>Packaged offers</h3></div>
+          <p class="pricing-sub">The simplest way to start. Fixed scope, clear handover.</p>
+        </div>
+        <div class="pricing-packs">
+          <article class="pricing-pack">
+            <span class="pack-no">PACKAGE 01</span>
+            <h4>Starter Digital Presence</h4>
+            <div class="pack-price pricing-fee"><small>from</small><strong>₹9,999</strong></div>
+            <p class="pack-desc">Small website or landing page, responsive layout, enquiry form and basic on-page SEO.</p>
+            <ul><li>Responsive layout</li><li>Enquiry form</li><li>Basic on-page SEO</li></ul>
+            <span class="pack-opt">Optional maintenance: <b>₹1,999/month</b></span>
+            <a class="button button-secondary pack-cta" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Starter%20Digital%20Presence">Enquire <span>↗</span></a>
+          </article>
+          <article class="pricing-pack is-featured">
+            <span class="pricing-badge">Most complete</span>
+            <span class="pack-no">PACKAGE 02</span>
+            <h4>Business Growth Website</h4>
+            <div class="pack-price pricing-fee"><small>from</small><strong>₹19,999</strong></div>
+            <p class="pack-desc">Multi-page website with enquiry capture and basic lead tracking.</p>
+            <ul><li>Multi-page website</li><li>Enquiry capture</li><li>Basic lead tracking</li><li>Analytics &amp; on-page SEO</li></ul>
+            <span class="pack-opt">Optional maintenance: <b>₹3,999/month</b></span>
+            <a class="button button-primary pack-cta" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Business%20Growth%20Website">Enquire <span>↗</span></a>
+          </article>
+          <article class="pricing-pack">
+            <span class="pack-no">PACKAGE 03</span>
+            <h4>Automation &amp; Analytics</h4>
+            <div class="pack-price pricing-fee"><small>from</small><strong>₹14,999</strong></div>
+            <p class="pack-desc">One scoped workflow or dashboard with agreed inputs, outputs and handover.</p>
+            <ul><li>One scoped workflow or dashboard</li><li>Agreed inputs and outputs</li><li>Handover</li></ul>
+            <span class="pack-opt">Optional support: <b>₹2,999/month</b></span>
+            <a class="button button-secondary pack-cta" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Automation%20%26%20Analytics">Enquire <span>↗</span></a>
+          </article>
+        </div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-head">
+          <div><span class="pricing-no">02</span><h3>Project-based services</h3></div>
+          <p class="pricing-sub">Indicative fee in INR, by type of work.</p>
+        </div>
+        <div class="pricing-toolbar">
+          <div class="pricing-chips" role="group" aria-label="Filter services by category"><button type="button" class="pricing-chip" data-filter-cat="all" aria-pressed="true">All services</button><button type="button" class="pricing-chip" data-filter-cat="web" aria-pressed="false">Websites</button><button type="button" class="pricing-chip" data-filter-cat="growth" aria-pressed="false">Leads &amp; growth</button><button type="button" class="pricing-chip" data-filter-cat="auto" aria-pressed="false">Automation &amp; AI</button><button type="button" class="pricing-chip" data-filter-cat="data" aria-pressed="false">Analytics</button><button type="button" class="pricing-chip" data-filter-cat="advice" aria-pressed="false">Advisory</button></div>
+          <span class="pricing-count" id="pricing-count" aria-live="polite">Showing 17 of 17</span>
+        </div>
+        <div class="pricing-table-wrap"><table class="pricing-table"><thead><tr><th scope="col">Service</th><th scope="col">Indicative fee (INR)</th><th scope="col">Typical scope / pricing notes</th><th scope="col" aria-label="Enquire"></th></tr></thead><tbody>
+          <tr data-cat="web"><th scope="row">Basic business website</th><td class="pricing-fee">₹8,000–₹15,000</td><td class="scope">3–5 responsive pages, contact details and enquiry form</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Basic%20business%20website" aria-label="Enquire about Basic business website">↗</a></td></tr>
+          <tr data-cat="web"><th scope="row">Multi-page business website</th><td class="pricing-fee">₹15,000–₹35,000</td><td class="scope">5–10 pages, basic on-page SEO and analytics setup</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Multi-page%20business%20website" aria-label="Enquire about Multi-page business website">↗</a></td></tr>
+          <tr data-cat="web"><th scope="row">Real-estate listing website</th><td class="pricing-fee">₹25,000–₹60,000+</td><td class="scope">Property listings, filters and enquiry capture; integrations extra</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Real-estate%20listing%20website" aria-label="Enquire about Real-estate listing website">↗</a></td></tr>
+          <tr data-cat="web"><th scope="row">Website redesign</th><td class="pricing-fee">₹3,000–₹12,000+</td><td class="scope">Depends on page count and depth of redesign</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Website%20redesign" aria-label="Enquire about Website redesign">↗</a></td></tr>
+          <tr data-cat="web"><th scope="row">Bug fixes / technical updates</th><td class="pricing-fee">₹500–₹3,000 per task</td><td class="scope">Estimate after review; larger issues quoted separately</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Bug%20fixes%20%2F%20technical%20updates" aria-label="Enquire about Bug fixes / technical updates">↗</a></td></tr>
+          <tr data-cat="web"><th scope="row">Domain / hosting setup</th><td class="pricing-fee">₹1,000–₹3,000 setup</td><td class="scope">Domain, hosting and subscriptions billed separately</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Domain%20%2F%20hosting%20setup" aria-label="Enquire about Domain / hosting setup">↗</a></td></tr>
+          <tr data-cat="growth"><th scope="row">Local SEO / Google Business Profile setup</th><td class="pricing-fee">₹2,000–₹5,000</td><td class="scope">Profile audit, setup and basic optimisation</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Local%20SEO%20%2F%20Google%20Business%20Profile%20setup" aria-label="Enquire about Local SEO / Google Business Profile setup">↗</a></td></tr>
+          <tr data-cat="growth"><th scope="row">Enquiry form / lead capture</th><td class="pricing-fee">₹2,000–₹6,000</td><td class="scope">Form, validation and email routing</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Enquiry%20form%20%2F%20lead%20capture" aria-label="Enquire about Enquiry form / lead capture">↗</a></td></tr>
+          <tr data-cat="growth"><th scope="row">Lead tracking / CRM setup</th><td class="pricing-fee">₹5,000–₹15,000</td><td class="scope">Simple pipeline, fields, statuses and handover</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Lead%20tracking%20%2F%20CRM%20setup" aria-label="Enquire about Lead tracking / CRM setup">↗</a></td></tr>
+          <tr data-cat="growth"><th scope="row">WhatsApp / email automation</th><td class="pricing-fee">₹3,000–₹12,000 setup</td><td class="scope">Scope depends on integrations; provider charges extra</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20WhatsApp%20%2F%20email%20automation" aria-label="Enquire about WhatsApp / email automation">↗</a></td></tr>
+          <tr data-cat="auto"><th scope="row">AI chatbot</th><td class="pricing-fee">₹8,000–₹25,000 setup</td><td class="scope">Basic knowledge base and lead capture; API usage extra</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20AI%20chatbot" aria-label="Enquire about AI chatbot">↗</a></td></tr>
+          <tr data-cat="auto"><th scope="row">Excel / Google Sheets automation</th><td class="pricing-fee">₹2,000–₹8,000</td><td class="scope">Small, clearly defined workflow</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Excel%20%2F%20Google%20Sheets%20automation" aria-label="Enquire about Excel / Google Sheets automation">↗</a></td></tr>
+          <tr data-cat="auto"><th scope="row">Python script / automation</th><td class="pricing-fee">₹3,000–₹10,000</td><td class="scope">Small defined script with agreed inputs and outputs</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Python%20script%20%2F%20automation" aria-label="Enquire about Python script / automation">↗</a></td></tr>
+          <tr data-cat="auto"><th scope="row">Complex Python workflow</th><td class="pricing-fee">₹10,000–₹30,000+</td><td class="scope">Integrations, scheduling, testing or deployment</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Complex%20Python%20workflow" aria-label="Enquire about Complex Python workflow">↗</a></td></tr>
+          <tr data-cat="data"><th scope="row">Power BI / Excel dashboard</th><td class="pricing-fee">₹3,000–₹10,000</td><td class="scope">Basic reporting dashboard; data preparation extra</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Power%20BI%20%2F%20Excel%20dashboard" aria-label="Enquire about Power BI / Excel dashboard">↗</a></td></tr>
+          <tr data-cat="data"><th scope="row">Advanced analytics dashboard</th><td class="pricing-fee">₹10,000–₹30,000+</td><td class="scope">Multiple data sources or complex models</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Advanced%20analytics%20dashboard" aria-label="Enquire about Advanced analytics dashboard">↗</a></td></tr>
+          <tr data-cat="advice"><th scope="row">Consultation / technical audit</th><td class="pricing-fee">₹500–₹1,500 per hour</td><td class="scope">Discovery, audit or technical advice</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Consultation%20%2F%20technical%20audit" aria-label="Enquire about Consultation / technical audit">↗</a></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-head">
+          <div><span class="pricing-no">03</span><h3>Monthly maintenance &amp; support</h3></div>
+          <p class="pricing-sub">Billed monthly in advance.</p>
+        </div>
+        <div class="pricing-table-wrap"><table class="pricing-table"><thead><tr><th scope="col">Plan</th><th scope="col">Monthly fee</th><th scope="col">Suggested inclusions</th><th scope="col" aria-label="Enquire"></th></tr></thead><tbody>
+          <tr><th scope="row">Basic Website Care</th><td class="pricing-fee">₹1,500–₹2,500</td><td class="scope">Backups, uptime checks, basic updates and limited minor fixes</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Basic%20Website%20Care" aria-label="Enquire about Basic Website Care">↗</a></td></tr>
+          <tr><th scope="row">Standard Website Care</th><td class="pricing-fee">₹3,000–₹5,000</td><td class="scope">Updates, form checks, basic security checks and priority support</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Standard%20Website%20Care" aria-label="Enquire about Standard Website Care">↗</a></td></tr>
+          <tr><th scope="row">Business Website Care</th><td class="pricing-fee">₹5,000–₹8,000</td><td class="scope">Frequent content edits, landing-page changes and analytics review</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Business%20Website%20Care" aria-label="Enquire about Business Website Care">↗</a></td></tr>
+          <tr><th scope="row">Website + Local SEO</th><td class="pricing-fee">₹5,000–₹10,000</td><td class="scope">Website care plus agreed local SEO tasks and monthly summary</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Website%20%2B%20Local%20SEO" aria-label="Enquire about Website + Local SEO">↗</a></td></tr>
+          <tr><th scope="row">Automation / dashboard support</th><td class="pricing-fee">₹2,000–₹6,000</td><td class="scope">Monitoring, minor adjustments and troubleshooting within limits</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20Automation%20%2F%20dashboard%20support" aria-label="Enquire about Automation / dashboard support">↗</a></td></tr>
+          <tr><th scope="row">AI chatbot support</th><td class="pricing-fee">₹2,000–₹6,000</td><td class="scope">Knowledge updates and basic troubleshooting; API costs extra</td><td class="go"><a class="row-arrow" href="mailto:saisanjay138@gmail.com?subject=Enquiry%3A%20AI%20chatbot%20support" aria-label="Enquire about AI chatbot support">↗</a></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-head">
+          <div><span class="pricing-no">04</span><h3>Commercial terms</h3></div>
+          <p class="pricing-sub">Applied consistently to every engagement.</p>
+        </div>
+        <ul class="pricing-terms">
+          <li><span class="term-key">50 / 50</span><strong>Payment</strong><p>50% advance and 50% before final handover, unless the approved proposal states otherwise.</p></li>
+          <li><span class="term-key">Monthly</span><strong>Maintenance</strong><p>Billed monthly in advance, with included edits, support hours, response time and exclusions clearly specified.</p></li>
+          <li><span class="term-key">Excluded</span><strong>Third-party costs</strong><p>Hosting, domains, paid plugins, API/messaging charges, advertising, subscriptions and third-party services are excluded unless itemised.</p></li>
+          <li><span class="term-key">Change</span><strong>Scope changes</strong><p>New features, extra pages, new integrations, redesigns and work outside scope need an approved change request and separate fee.</p></li>
+          <li><span class="term-key">Honest</span><strong>No guarantees</strong><p>No promises on search rankings, lead volume, revenue or AI accuracy. Work is sold as defined deliverables and reporting.</p></li>
+        </ul>
+      </div>
+
+      <div class="pricing-cta">
+        <div>
+          <h3>Not sure which option fits?</h3>
+          <p>Email the problem, the output you need and your timeline. I will suggest a practical scope and a clear quote before any work starts.</p>
+        </div>
+        <a class="button button-primary" href="mailto:saisanjay138@gmail.com?subject=Quote%20request">Request a quote <span>↗</span></a>
+      </div>
+
+      <p class="disclaimer">
+        These are suggested starter rates, not guaranteed market prices or
+        tax advice. Scope and costs are confirmed before any client quote
+        is issued.
+      </p>
+      </div>
+
+      <script>
+        (function(){
+          var root=document.getElementById('pricing');
+          if(!root)return;
+          var chips=root.querySelectorAll('[data-filter-cat]');
+          var rows=root.querySelectorAll('tr[data-cat]');
+          var count=document.getElementById('pricing-count');
+          chips.forEach(function(chip){
+            chip.addEventListener('click',function(){
+              var cat=chip.getAttribute('data-filter-cat'),shown=0;
+              chips.forEach(function(c){c.setAttribute('aria-pressed',c===chip?'true':'false');});
+              rows.forEach(function(r){
+                var hide=(cat!=='all'&&r.getAttribute('data-cat')!==cat);
+                r.hidden=hide;
+                if(!hide)shown++;
+              });
+              if(count)count.textContent='Showing '+shown+' of '+rows.length;
+            });
+          });
+        })();
+      </script>
     </section>
 
     <!-- FINANCE TOOLS -->
